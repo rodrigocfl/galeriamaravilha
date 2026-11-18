@@ -29,6 +29,15 @@
   <a id="direto" href="https://script.google.com/macros/s/AKfycbwJODfoqjkSn7OyLsBbVJFPqEalaaoJJc92uIP6AZtWUOjGnxJfIkZE6ZpPVJSIsJicGw/exec">Demorando? Toque aqui</a>
 </div>
 <script>
+  // Guarda a chave de acesso deste celular, pedida pelo app que roda dentro da página
+  window.addEventListener('message', function (e) {
+    if (!/^https:\/\/[a-z0-9-]+-script\.googleusercontent\.com$/.test(e.origin)) return;
+    var d = e.data || {};
+    try {
+      if (d.tipo === 'gm-pedir-chave') e.source.postMessage({ tipo: 'gm-chave', chave: localStorage.getItem('gm_chave') || '' }, e.origin);
+      if (d.tipo === 'gm-salvar-chave') { if (d.chave) localStorage.setItem('gm_chave', d.chave); else localStorage.removeItem('gm_chave'); }
+    } catch (err) {}
+  });
   var s=document.getElementById('splash');
   document.getElementById('app').addEventListener('load',function(){s.style.opacity=0;setTimeout(function(){s.remove()},450);});
   setTimeout(function(){var a=document.getElementById('direto');if(a)a.style.display='block';},12000);
