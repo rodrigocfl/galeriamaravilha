@@ -34,15 +34,13 @@
   #area{position:fixed;left:0;top:0;width:0;visibility:hidden;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
   #splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:radial-gradient(120% 90% at 50% 30%,#7a1a2b 0%,#5e1220 50%,#3f0b15 100%);color:#e9d6b0;font:italic 500 18px Georgia,serif;letter-spacing:.5px;transition:opacity .4s}
   #splash img{width:112px;height:112px;border-radius:26px}
-  #splash a{color:#e8cfa9;font-size:14px;display:none}
+  #splash a{color:#e8cfa9;font:14px system-ui,sans-serif;display:none;position:absolute;bottom:60px}
 </style>
 </head>
 <body>
 <iframe id="app" title="Galeria Maravilha" allow="clipboard-write" src="https://script.google.com/macros/s/AKfycbwJODfoqjkSn7OyLsBbVJFPqEalaaoJJc92uIP6AZtWUOjGnxJfIkZE6ZpPVJSIsJicGw/exec"></iframe>
 <div id="area"></div>
 <div id="splash">
-  <img src="icon-192.png" alt="">
-  <div>Abrindo…</div>
   <a id="direto" href="https://script.google.com/macros/s/AKfycbwJODfoqjkSn7OyLsBbVJFPqEalaaoJJc92uIP6AZtWUOjGnxJfIkZE6ZpPVJSIsJicGw/exec">Demorando? Toque aqui</a>
 </div>
 <script>
