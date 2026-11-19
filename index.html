@@ -30,14 +30,16 @@
 <meta name="twitter:image" content="https://app.galeriamaravilha.com.br/og-image.png">
 <style>
   html,body{margin:0;height:100%;background:linear-gradient(#5e1220 0 50%,#fffdf9 50% 100%);overflow:hidden}
-  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:transparent;padding-top:env(safe-area-inset-top);box-sizing:border-box}
-  #splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#69131f;color:#fdf6ec;font:600 16px system-ui,sans-serif;transition:opacity .4s}
+  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:transparent;box-sizing:border-box}
+  #area{position:fixed;left:0;top:0;width:0;visibility:hidden;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+  #splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:radial-gradient(120% 90% at 50% 30%,#7a1a2b 0%,#5e1220 50%,#3f0b15 100%);color:#e9d6b0;font:italic 500 18px Georgia,serif;letter-spacing:.5px;transition:opacity .4s}
   #splash img{width:112px;height:112px;border-radius:26px}
   #splash a{color:#e8cfa9;font-size:14px;display:none}
 </style>
 </head>
 <body>
 <iframe id="app" title="Galeria Maravilha" allow="clipboard-write" src="https://script.google.com/macros/s/AKfycbwJODfoqjkSn7OyLsBbVJFPqEalaaoJJc92uIP6AZtWUOjGnxJfIkZE6ZpPVJSIsJicGw/exec"></iframe>
+<div id="area"></div>
 <div id="splash">
   <img src="icon-192.png" alt="">
   <div>Abrindo…</div>
@@ -51,8 +53,14 @@
     try {
       if (d.tipo === 'gm-pedir-chave') e.source.postMessage({ tipo: 'gm-chave', chave: localStorage.getItem('gm_chave') || '' }, e.origin);
       if (d.tipo === 'gm-salvar-chave') { if (d.chave) localStorage.setItem('gm_chave', d.chave); else localStorage.removeItem('gm_chave'); }
+      if (d.tipo === 'gm-pedir-area') enviarArea(e.source, e.origin);
     } catch (err) {}
   });
+  // Manda para o app o tamanho da barra de status e da barra de baixo do iPhone
+  function enviarArea(alvo, origem) {
+    var cs = getComputedStyle(document.getElementById('area'));
+    alvo.postMessage({ tipo: 'gm-area', topo: parseFloat(cs.paddingTop) || 0, fundo: parseFloat(cs.paddingBottom) || 0 }, origem);
+  }
   var s=document.getElementById('splash');
   document.getElementById('app').addEventListener('load',function(){s.style.opacity=0;setTimeout(function(){s.remove()},450);});
   setTimeout(function(){var a=document.getElementById('direto');if(a)a.style.display='block';},12000);
