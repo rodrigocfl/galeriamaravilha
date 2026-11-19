@@ -52,6 +52,7 @@
       if (d.tipo === 'gm-pedir-chave') e.source.postMessage({ tipo: 'gm-chave', chave: localStorage.getItem('gm_chave') || '' }, e.origin);
       if (d.tipo === 'gm-salvar-chave') { if (d.chave) localStorage.setItem('gm_chave', d.chave); else localStorage.removeItem('gm_chave'); }
       if (d.tipo === 'gm-pedir-area') enviarArea(e.source, e.origin);
+      if (d.tipo === 'gm-realinhar') window.scrollTo(0, 0);
     } catch (err) {}
   });
   // Manda para o app o tamanho da barra de status e da barra de baixo do iPhone
@@ -59,6 +60,10 @@
     var cs = getComputedStyle(document.getElementById('area'));
     alvo.postMessage({ tipo: 'gm-area', topo: parseFloat(cs.paddingTop) || 0, fundo: parseFloat(cs.paddingBottom) || 0 }, origem);
   }
+  // iPhone: depois que o teclado fecha, a página pode ficar rolada e os toques caem fora do lugar
+  function alinhar(){ if (window.scrollY || window.scrollX) window.scrollTo(0, 0); }
+  if (window.visualViewport) { window.visualViewport.addEventListener('resize', function(){ setTimeout(alinhar, 60); }); window.visualViewport.addEventListener('scroll', function(){ setTimeout(alinhar, 60); }); }
+  window.addEventListener('scroll', alinhar);
   var s=document.getElementById('splash');
   document.getElementById('app').addEventListener('load',function(){s.style.opacity=0;setTimeout(function(){s.remove()},450);});
   setTimeout(function(){var a=document.getElementById('direto');if(a)a.style.display='block';},12000);
